@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-firestore.js"></script>
+    <script>
+      // Your web app's Firebase configuration
+      var firebaseConfig = {
+        apiKey: "AIzaSyANXRqvzovt-F6GsXVF4ddZayPZA2_RaZM",
+        authDomain: "sebastian-eed27.firebaseapp.com",
+        databaseURL: "https://sebastian-eed27.firebaseio.com",
+        projectId: "sebastian-eed27",
+        storageBucket: "sebastian-eed27.appspot.com",
+        messagingSenderId: "73320767581",
+        appId: "1:73320767581:web:37b4ead76f796e1b256db4",
+        measurementId: "G-5KWJ16476S"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+    </script>
+    <link rel="stylesheet" href="../CSS/ProduktSide.css">
+    <link rel="stylesheet" href="../CSS/Nav.css">
+  </head>
+  <body>
+    <section class="top">
+      <ul>GRATIS LEVERING OG RETUR PÅ ALLE ORDRE</ul>
+      <ul>1-3 DAGERS LEVERINGSTID</ul>
+      <ul>30 DAGERS ÅPENT KJØP PÅ ALLE ORDRE</ul>
+      <ul>EKSKLUSIV GAVEINNPAKNING</ul>
+    </section>
+    <header class="Header">
+      <div class="navbar">
+        <div class="dropdown">
+          <button class="dropbtn">NETTSIDE
+            <i class="fa fa-caret-down"></i>
+          </button>
+          <div class="dropdown-content">
+            <div class="row">
+              <div class="column">
+                <a href="../HTML/Produkter.html"><b>HERRE</b></a>
+                <a href="../HTML/Accessories.html">Accessories</a>
+                <a href="../HTML/Bukser.html">Bukser</a>
+                <a href="../HTML/T-skjorter.html">T-Skjorter</a>
+              </div>
+              <div class="column">
+                  <a href="../HTML/Genser.html">Genser</a>
+                <a href="../HTML/Ytterjakker.html">Yttertøy</a>
+                <a href="#">Sko</a>
+                <a href="#">Undertøy og Pysjamas</a>
+              </div>
+              <div class="column">
+                <a href="#"><b>INFO</b></a>
+                <a href="#">Om oss</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <a href="../HTML/Hovedside.html"><img id="Logo" src="../Bilder/GANT_logo.png" alt=""></a>
+      <a href="#">HANDLEKURV</a>
+    </header>
+
+    <div id="nettsider1"></div>
+
+
+
+
+    <script>
+      var url_string = window.location.href;
+      var url = new URL(url_string);
+      var id = url.searchParams.get("id");
+
+      const db = firebase.firestore();
+      const nettsideColl = db.collection("Nettside").doc(id);
+      const nettsideDiv = document.querySelector("#nettsider1");
+
+      async function hentData(){
+        const nettsider = await nettsideColl.get();
+        lagHtml(nettsider.data())
+        }
+
+        function lagHtml(nettsideData,id){
+          nettsideDiv.innerHTML += `
+          <section id="Grid">
+            <img src="${nettsideData["Bilde"]}">
+            <div>
+              <b>${nettsideData["Navn"]}</b>
+              <div>${nettsideData["Pris"]},-</div>
+              <div>Farge: ${nettsideData["Farge"]}</div>
+              <div id="Kjøp_grid">
+                <select  id="Velg" name="">
+                  <option value="">Velg Størrelse</option>
+                  <option value="S">XS</option>
+                  <option value="S">S</option>
+                  <option value="S">M</option>
+                  <option value="S">L</option>
+                  <option value="S">XL</option>
+                </select>
+                <a href="Handlekurv.html"><button id="Kjøp">LEGG TIL I HANDLEKURV</button></a>
+              </div>
+
+            </div>
+          </section>
+
+          `
+        }
+
+      hentData();
+    </script>
+
+  </body>
+</html>
